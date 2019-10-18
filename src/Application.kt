@@ -23,9 +23,16 @@ fun Application.module(testing: Boolean = false) {
     routing {
 
         get("/") {
-            call.respond(mapOf("result" to true))
+            val books = listOf(
+                Book("Harry Porter1", "J.K. Rowling", "1234567890123"),
+                Book("Harry Porter 2", "J.K. Rowling", "1234567890123")
+            )
+
+            call.respond(mapOf("result" to true, "books" to books))
         }
 
     }
 
 }
+
+data class Book(val title: String, val author: String, val isbn: String)
