@@ -13,6 +13,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.post
+import io.ktor.routing.put
 import io.ktor.routing.routing
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -65,6 +66,16 @@ fun Application.module(testing: Boolean = false) {
             }
 
             call.respond(HttpStatusCode.Created)
+        }
+
+        put("/api/tasks/{id}") {
+            val id = call.parameters["id"]?.toInt()!!
+            transaction {
+                val task = Task.findById(id)!!
+                task.completed = true
+            }
+
+            call.respond(HttpStatusCode.OK)
         }
     }
 
